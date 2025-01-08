@@ -1,6 +1,6 @@
 #Variables
-$FilterWords = @('WkRls', 'Supp', 'supplemental')
-$SubFolders  = @("Bond Investigations", "Bond Supervision", "Mug Shots", "Work Education", "Work Release")
+$FilterWords = @('WrkRls', 'supplemental')
+$SubFolders  = @("Bond Investigations", "Bond Supervision", "Mug Shots", "Work Education")
 
 #Load the assembly
 [void] [System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms')
@@ -50,9 +50,9 @@ ForEach ($File in $Files) {
 
     #Move the file to the new folder base on file name
     Switch -WildCard ($File.BaseName) {
-        '*WkRls'       { $NewFolder = Join-Path -Path $NewFolder -ChildPath 'Work Release' }
-        '*WorkRelease' { $NewFolder = Join-Path -Path $NewFolder -ChildPath 'Work Release' }
-        Default        { $NewFolder = $NewFolder }
+        '*Supp*'         { $NewFolder = Join-Path -Path $NewFolder -ChildPath 'Bond Investigations' }
+        '*supplemental*' { $NewFolder = Join-Path -Path $NewFolder -ChildPath 'Bond Investigations' }
+        Default          { $NewFolder = Join-Path -Path $NewFolder -ChildPath 'Bond Investigations' }
     }
 
     #Move the file
