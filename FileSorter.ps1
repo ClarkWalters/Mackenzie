@@ -1,5 +1,5 @@
 #Variables
-$FilterWords = @('WkRls', 'Supp', 'supplemental')
+$FilterWords = @('WkRls', 'supplemental')
 $SubFolders  = @("Bond Investigations", "Bond Supervision", "Interview Sheets", "Mug Shots")
 
 #Load the assembly
