@@ -1,6 +1,6 @@
 #Variables
-$FilterWords = @('WrkRls', 'supplemental')
-$SubFolders  = @("Bond Investigations", "Bond Supervision", "Mug Shots", "Work Education")
+$FilterWords = @('WkRls', 'Supp', 'supplemental')
+$SubFolders  = @("Bond Investigations", "Bond Supervision", "Interview Sheets", "Mug Shots")
 
 #Load the assembly
 [void] [System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms')
@@ -14,6 +14,12 @@ $FolderBrowserDialog.RootFolder = 'MyComputer'
 #Show the dialog and store the result in a variable
 if ($initialDirectory) { $FolderBrowserDialog.SelectedPath = $initialDirectory }
 [void] $FolderBrowserDialog.ShowDialog()
+
+#If the user didn't select a folder, exit the script
+If ($FolderBrowserDialog.SelectedPath -eq '') {
+    Write-Host 'No Folder Selected'
+    Exit
+}
 $FolderPath = $FolderBrowserDialog.SelectedPath
 
 #Grab All Files Under the Folder
@@ -49,11 +55,11 @@ ForEach ($File in $Files) {
     }
 
     #Move the file to the new folder base on file name
-    Switch -WildCard ($File.BaseName) {
-        '*Supp*'         { $NewFolder = Join-Path -Path $NewFolder -ChildPath 'Bond Investigations' }
-        '*supplemental*' { $NewFolder = Join-Path -Path $NewFolder -ChildPath 'Bond Investigations' }
-        Default          { $NewFolder = Join-Path -Path $NewFolder -ChildPath 'Bond Investigations' }
-    }
+	Switch -WildCard ($File.BaseName) {
+    	'*Supp*'     	 { $NewFolder = Join-Path -Path $NewFolder -ChildPath 'Bond Investigations' }
+    	'*supplemental*' { $NewFolder = Join-Path -Path $NewFolder -ChildPath 'Bond Investigations' }
+    	Default      	 { $NewFolder = Join-Path -Path $NewFolder -ChildPath 'Bond Investigations' }
+	}
 
     #Move the file
     Move-Item -Path $File.FullName -Destination $NewFolder
